@@ -1,54 +1,57 @@
-"use client";
+'use client';
 
+import { QuestionsApi } from '@/api';
+import { Category, Paginated, UiState } from '@/types';
 import Link from 'next/link';
-import styles from './Categories.module.css'
 import { useEffect, useState } from 'react';
-
-const URL = 'https://vef2-2025-v3-unnid-i-tima.onrender.com/categories';
-
-type Category = {
-  id: string;
-  slug: string;
-  title: string;
-}
+import styles from './Categories.module.css';
 
 type Props = {
   title: string;
   tag?: string;
   popular?: boolean;
-}
+};
 
-export default function Categories({ title, tag, popular }: Props) {
-  const [categories, setCategories] = useState<Category[]>([])
+export default function Categories({ title }: Props) {
+  const [uiState, setUiState] = useState<UiState>('initial');
+  const [categories, setCategories] = useState<Paginated<Category> | null>(
+    null,
+  );
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(URL).catch(err => console.log(err));
+      setUiState('loading');
 
-      if (!response) {
-        throw new Error('unable to get data')
+      const api = new QuestionsApi();
+      const categoriesResponse = await api.getCategories();
+
+      if (!categoriesResponse) {
+        setUiState('error');
+      } else {
+        setUiState('data');
+        setCategories(categoriesResponse);
       }
-
-      const json = await response.json();
-      setCategories(json);
-
-      console.log(json)
     }
     fetchData();
-  }, [])
+  }, []);
+
+  console.log(categories);
 
   return (
     <div className={styles.cats}>
       <h2>{title}</h2>
 
-      <ul>
-        {categories.map((category, index) => (
-          <li key={index}>
-            <Link href={`/flokkar/${category.slug}`}>{category.title}</Link>
-          </li>
-        ))}
-      </ul>
-
+      {uiState === 'loading' && <p>Sæki flokka</p>}
+      {uiState === 'error' && <p>Villa við að sækja flokka</p>}
+      {uiState === 'data' && (
+        <ul>
+          {categories?.data.map((category, index) => (
+            <li key={index}>
+              <Link href={`/flokkar/${category.slug}`}>{category.name}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
