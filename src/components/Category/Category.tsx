@@ -19,7 +19,7 @@ export function Category({ slug }: { slug: string }): JSX.Element {
         setUiState('error');
         return;
       }
-
+      console.log(response);
       if (response.data.length === 0) {
         setUiState('empty');
       } else {

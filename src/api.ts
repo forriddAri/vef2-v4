@@ -2,13 +2,8 @@ import { Category, Paginated, Question } from './types';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:8000';
 
-async function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export class QuestionsApi {
   async fetchFromApi<T>(url: string): Promise<T | null> {
-    await sleep(1000);
     let response: Response | undefined;
     try {
       response = await fetch(url);
