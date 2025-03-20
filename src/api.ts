@@ -16,7 +16,7 @@ export class QuestionsApi {
       console.error('non 2xx status from API', url);
       return null;
     }
-
+    //fix
     if (response.status === 404) {
       console.error('404 from API', url);
       return null;
