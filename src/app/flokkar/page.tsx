@@ -14,14 +14,20 @@ export default function FlokkarPage() {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    async function test(){ 
-    const questionsApi = new  QuestionsApi();
-    const categories = await questionsApi.getCategories();
-    setCategories(categories)
+    async function test() {
+      const questionsApi = new QuestionsApi();
+      const categoriesResponse = await questionsApi.getCategories();
+      if (categoriesResponse) {
+        // Flatten the nested array to get a single-level array of Category
+        setCategories(categoriesResponse.data.flat());
+      } else {
+        setCategories([]);
+      }
     }
-    test()
-  }, 
-  []);
+    test();
+  }, []);
+  
+  
 
   return (
     <div className={styles.categories}>

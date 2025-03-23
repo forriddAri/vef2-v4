@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styles from './Categories.module.css';
 
+
 type Props = {
   title: string;
   tag?: string;
@@ -13,27 +14,25 @@ type Props = {
 };
 
 export default function Categories({ title }: Props) {
-  const [uiState, setUiState] = useState<UiState>('initial');
-  const [categories, setCategories] = useState<Paginated<Category> | null>(
-    null,
-  );
+  const [uiState] = useState<UiState>('initial');
+  const [categories, setCategories] = useState<Paginated<Category[]> | null>(null);
 
   useEffect(() => {
-    async function fetchData() {
-      setUiState('loading');
-
-      const api = new QuestionsApi();
-      const categoriesResponse = await api.getCategories();
-
-      if (!categoriesResponse) {
-        setUiState('error');
+    async function test() {
+      const questionsApi = new QuestionsApi();
+      const categories = await questionsApi.getCategories();
+  
+      if (categories) {
+        setCategories(categories);
       } else {
-        setUiState('data');
-        setCategories(categoriesResponse);
+        console.error("Gat ekki sótt flokka.");
       }
     }
-    fetchData();
+  
+    test();
   }, []);
+  
+
 
   console.log(categories);
 
@@ -41,16 +40,16 @@ export default function Categories({ title }: Props) {
     <div className={styles.cats}>
       <h2>{title}</h2>
 
-      {uiState === 'loading' && <p>Sæki flokka</p>}
+      {uiState === 'loading' && <p>Sæki flokka...</p>}
       {uiState === 'error' && <p>Villa við að sækja flokka</p>}
-      {uiState === 'data' && (
+      {uiState === 'data' && categories && (
         <ul>
-          {categories?.data.map((category, index) => (
-            <li key={index}>
-              <Link href={`/flokkar/${category.slug}`}>{category.name}</Link>
-            </li>
-          ))}
-        </ul>
+        {categories?.data.flat().map((category) => (
+        <li key={category.id}>
+        <Link href={`/flokkar/${category.slug}`}>{category.name}</Link>
+        </li> 
+      ))}
+      </ul>
       )}
     </div>
   );

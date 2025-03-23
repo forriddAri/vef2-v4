@@ -9,15 +9,19 @@ import type { Category } from "@/types";
 export default function Home() {
   const [categories, setCategories] = useState<Category[]>([]);
 
-    useEffect(() => {
-      async function test(){ 
-      const questionsApi = new  QuestionsApi();
-      const categories = await questionsApi.getCategories();
-      setCategories(categories)
+  useEffect(() => {
+    async function test() { 
+      const api = new QuestionsApi();
+      const response = await api.getCategories();
+      if (response) {
+        // Flatten the nested array into a single-level array.
+        setCategories(response.data.flat());
+      } else {
+        setCategories([]);
       }
-      test()
-    }, 
-    []);
+    }
+    test();
+  }, []);
 
   return (
     <div className={styles.page}>

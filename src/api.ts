@@ -50,13 +50,8 @@ export class QuestionsApi {
 
     return response;
   }
-  async getCategories( ) {
-    
-      return fetch("http://localhost:8000/categories")
-      .then((res) => res.json())
-
-      .then((data: {data:Category[]}) => (data.data));
-    
+  async getCategories(): Promise<Paginated<Category[]> | null> {
+    return this.fetchFromApi<Paginated<Category[]>>(`${BASE_URL}/categories`);
   }
   
 }
