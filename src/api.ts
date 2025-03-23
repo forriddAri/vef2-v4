@@ -1,6 +1,6 @@
 import { Category, Paginated, Question } from './types';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:8000';
+const BASE_URL =  'http://localhost:8000'; //process.env.NEXT_PUBLIC_BASE_URL ??
 
 export class QuestionsApi {
   async fetchFromApi<T>(url: string): Promise<T | null> {
@@ -41,24 +41,23 @@ export class QuestionsApi {
     return response;
   }
 
-  async getCategories(): Promise<Paginated<Category> | null> {
-    const url = BASE_URL + '/categories';
-
-    const response = await this.fetchFromApi<Paginated<Category>>(url);
-
-    // TODO hér gæti ég staðfest gerð gagna
-
-    return response;
-  }
-
   async getQuestions(
     categorySlug: string,
   ): Promise<Paginated<Question> | null> {
     const url = BASE_URL + `/questions?category=${categorySlug}`;
-    // new URL()
 
     const response = await this.fetchFromApi<Paginated<Question>>(url);
 
     return response;
   }
+  async getCategories( ) {
+    
+      return fetch("http://localhost:8000/categories")
+      .then((res) => res.json())
+
+      .then((data: {data:Category[]}) => (data.data));
+    
+  }
+  
 }
+

@@ -14,6 +14,7 @@ export function Category({ slug }: { slug: string }): JSX.Element {
       setUiState('loading');
       const api = new QuestionsApi();
       const response = await api.getQuestions(slug);
+      console.log(slug);
 
       if (!response) {
         setUiState('error');
@@ -49,3 +50,4 @@ export function Category({ slug }: { slug: string }): JSX.Element {
       return <p>Þú hefur ekki valið flokk</p>;
   }
 }
+
