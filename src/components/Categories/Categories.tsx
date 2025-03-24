@@ -43,13 +43,14 @@ export default function Categories({ title }: Props) {
       {uiState === 'loading' && <p>Sæki flokka...</p>}
       {uiState === 'error' && <p>Villa við að sækja flokka</p>}
       {uiState === 'data' && categories && (
-        <ul>
-        {categories?.data.flat().map((category) => (
-        <li key={category.id}>
+         <ul>
+         {categories?.data.flat().map((category) => (
+        <li key={category.id} className={styles.categoryItem}>
         <Link href={`/flokkar/${category.slug}`}>{category.name}</Link>
-        </li> 
+        </li>
       ))}
-      </ul>
+
+       </ul>
       )}
     </div>
   );

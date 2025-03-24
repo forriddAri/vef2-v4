@@ -1,6 +1,6 @@
 import { Category, Paginated, Question } from './types';
 
-const BASE_URL =  'http://localhost:8000'; //process.env.NEXT_PUBLIC_BASE_URL ??
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:8000";; 
 
 export class QuestionsApi {
   async fetchFromApi<T>(url: string): Promise<T | null> {
@@ -52,7 +52,7 @@ export class QuestionsApi {
   }
   async getCategories(): Promise<Paginated<Category[]> | null> {
     return this.fetchFromApi<Paginated<Category[]>>(`${BASE_URL}/categories`);
-  }
+  }  
   
 }
 
