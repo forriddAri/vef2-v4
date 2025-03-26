@@ -3,6 +3,11 @@ import { Category, Paginated, Question, Answer } from './types';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:8000";
 
 export class QuestionsApi {
+  async getQuestionById(id: string): Promise<Question | null> {
+    const url = `${BASE_URL}questions/${id}`;
+    const response = await this.fetchFromApi<Question>(url);
+    return response;
+  }
   async fetchFromApi<T>(url: string): Promise<T | null> {
     let response: Response | undefined;
     try {
@@ -76,5 +81,6 @@ export class QuestionsApi {
       return null;
     }
   }
+  
 }
 

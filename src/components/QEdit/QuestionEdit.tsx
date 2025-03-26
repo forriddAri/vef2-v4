@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation"; // ef þú notar app router, annars next/router
-import styles from "./QuestionEditForm.module.css";
+import { useRouter, useParams } from "next/navigation"; 
+import styles from "./QuestionEdit.module.css";
 import { QuestionsApi } from "@/api";
 import type { Question as QuestionType, Answer } from "@/types";
+
 
 export default function QuestionEditForm() {
   // Notum id frá URL-inu til að sækja spurninguna
@@ -21,17 +22,15 @@ export default function QuestionEditForm() {
   useEffect(() => {
     async function fetchQuestion() {
       const api = new QuestionsApi();
-      // Gerum ráð fyrir að þú hafir API endpoint sem sækir spurningu eftir id, t.d. getQuestion(id)
-      const q = await api.getQuestions(String(id));
-      const firstQuestion = q?.data?.[0];
       
-    if (firstQuestion) {
-    setQuestion(firstQuestion);
-    setQuestionText(firstQuestion.text);
-    setAnswers(firstQuestion.answers);
-  } else {
-    setMessage("Ekki tókst að sækja spurningu");
-  }
+      const question = await api.getQuestionById(String(id));
+      if (question) {
+      setQuestion(question);
+      setQuestionText(question.text);
+      setAnswers(question.answers);
+      } else {
+      setMessage("Ekki tókst að sækja spurningu");
+      }
       setLoading(false);
     }
     fetchQuestion();
@@ -52,14 +51,37 @@ export default function QuestionEditForm() {
 
   // Handler fyrir uppfærslu spurningar
   const onSubmit = async (e: React.FormEvent) => {
+
+    console.log("Validating answers...");
+
+answers.forEach((a, i) => {
+  console.log(`Answer ${i}:`, a);
+
+  if (typeof a.text !== "string" || a.text.trim() === "") {
+    console.warn(`⚠️ Answer ${i} has invalid or empty text`);
+  }
+  if (typeof a.correct !== "boolean") {
+    console.warn(`⚠️ Answer ${i} has invalid 'correct' value:`, a.correct);
+  }
+});
+    
     e.preventDefault();
     const api = new QuestionsApi();
 
     // Búum til payload fyrir uppfærslu
     const payload = {
-      text: questionText,
-      answers,
-    };
+      text: questionText.trim(),
+      answers: answers.map(({ text, correct }) => ({
+        text: text.trim(),
+        correct,
+      })),
+    } as { text: string; answers: Answer[] };
+
+    console.log("Sending update:", payload);
+    console.log("Sending PATCH to:", `/questions/${id}`);
+    console.log("Payload:", payload);
+
+    
 
     // Gerum ráð fyrir að þú hafir API endpoint til að uppfæra spurningu, t.d. PUT /api/questions/[id]
     const res = await api.updateQuestion(String(id), payload);
@@ -85,6 +107,7 @@ export default function QuestionEditForm() {
             type="text"
             value={questionText}
             onChange={(e) => setQuestionText(e.target.value)}
+            
           />
         </div>
         <div className={styles.formGroup}>
