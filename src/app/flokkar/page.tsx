@@ -38,7 +38,7 @@ export default function FlokkarPage() {
         ) : (
           categories.map((cat) => (
             <li key={cat.id} className={styles.categoryItem}>
-              <Link href={`/flokkar/${cat.id}`}>{cat.name}</Link>
+              <Link href={`/flokkar/${cat.slug}`}>{cat.name}</Link>
             </li>
           ))
         )}

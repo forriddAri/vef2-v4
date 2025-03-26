@@ -38,7 +38,7 @@ export default function Home() {
       </section>
 
       <section className={styles.categories}>
-        <h2>Valdir Flokkar</h2>
+        <h2>Flokkar</h2>
         <ul>
           {categories.length === 0 ? (
             <p>Hleð inn flokkum...</p> 

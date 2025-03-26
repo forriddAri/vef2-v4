@@ -1,0 +1,52 @@
+.questionContainer {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.questionHeading {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.answerList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.answerItem {
+  margin-bottom: 10px;
+}
+
+.answerInput {
+  margin-right: 5px;
+}
+
+.submitButton {
+  background: #0070f3;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.submitButton:hover {
+  background: #005bb5;
+}
+
+.editButton {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #ddd;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.editButton:hover {
+  background-color: #ccc;
+}

@@ -5,6 +5,9 @@ import { Question as TQuestion, UiState } from '@/types';
 import { JSX, useEffect, useState } from 'react';
 import { Question } from '../Question/Question';
 
+
+
+
 export function Category({ slug }: { slug: string }): JSX.Element {
   const [uiState, setUiState] = useState<UiState>('initial');
   const [questions, setQuestions] = useState<TQuestion[]>([]);
@@ -14,17 +17,15 @@ export function Category({ slug }: { slug: string }): JSX.Element {
       setUiState('loading');
       const api = new QuestionsApi();
       const response = await api.getQuestions(slug);
-      console.log(slug);
-
       if (!response) {
         setUiState('error');
         return;
       }
-      console.log(response);
       if (response.data.length === 0) {
         setUiState('empty');
       } else {
         setUiState('data');
+        
         setQuestions(response.data);
       }
     }
@@ -46,8 +47,11 @@ export function Category({ slug }: { slug: string }): JSX.Element {
           ))}
         </div>
       );
+  
     case 'initial':
       return <p>Þú hefur ekki valið flokk</p>;
   }
+  
+  
 }
 

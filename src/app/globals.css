@@ -33,3 +33,49 @@ a {
   text-decoration: none;
 }
 
+/* Question.module.css */
+
+.questionContainer {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.questionHeading {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.answerList {
+  list-style: none;
+  padding: 0;
+}
+
+.answerItem {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.answerInput {
+  margin-right: 8px;
+}
+
+.submitButton {
+  background: #e55039;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 12px;
+  font-size: 1rem;
+}
+
+.submitButton:hover {
+  background: #d43c2f;
+}
